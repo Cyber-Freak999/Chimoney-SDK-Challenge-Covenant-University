@@ -6,4 +6,5 @@ pub mod payment;
 pub mod payouts;
 pub mod redeem;
 pub mod subaccount;
+pub mod types;
 pub mod wallet;
