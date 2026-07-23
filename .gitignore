@@ -363,13 +363,13 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Environment variables
-.env
+**/.env
 
 # Cargo lock (for libraries)
-Cargo.lock
+**/Cargo.lock
 
 # Superpowers directory
-.superpowers/
+**/.superpowers/
 
 # Swap files
 *.swp
