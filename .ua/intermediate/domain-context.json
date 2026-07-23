@@ -1,0 +1,361 @@
+{
+  "projectRoot": "/home/cyberfreak/projects/Chimoney-SDK-Challenge-Covenant-University",
+  "fileCount": 69,
+  "fileTree": [
+    "SDK Submissions/chimoney_rust_sdk/src/account/account.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/account/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/beneficiary/beneficiary.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/beneficiary/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/core/api_client.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/core/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/info/info.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/info/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/payment/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/payment/payment.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/payouts/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/payouts/payouts.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/redeem/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/redeem/redeem.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/subaccount/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/subaccount/subaccount.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/wallet/mod.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/wallet/wallet.rs",
+    "SDK Submissions/chimoney_rust_sdk/src/lib.rs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/Chimoney.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyAccount.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyInfo.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyPayments.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyPayout.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyRedeem.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneySubAccount.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyWallet.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Contracts/IChimoneyBase.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Exceptions/NonSerializableResponse.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/AccountTransfer.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/Transaction.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/TransactionDetail.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/TransferDetail.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/Bank.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/BankAccount.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/BankBranch.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/BenefitsData.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/ConversionToUSD.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/MobileMoneyCode.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/USDToLocalConversion.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Payment/PaymentInfo.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Payment/PaymentRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Payment/PaymentVerification.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemAirtimeRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemAnyRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemChimoneyRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemGiftcardRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemMobileMoneyRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemResult.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/SubAccount/CreateSubAccountRequest.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/SubAccount/SubAccount.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/SubAccount/UpdateSubAccount.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Benefit.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/CryptoPayment.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/PaymentData.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Status.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Wallet.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Responses/PaymentResponse.cs",
+    "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Responses/Response.cs",
+    "SDK Submissions/ChimoneyDotNet/TestingWrapper/Program.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/AccountTests.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/InfoTests.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/PaymentTests.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/PayoutTest.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/RedeemTest.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/SubAccountTest.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/Usings.cs",
+    "SDK Submissions/ChimoneyDotNet/Tests/WalletTest.cs"
+  ],
+  "entryPoints": [],
+  "fileSignatures": [
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/Chimoney.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 69,
+      "preview": "\ufeffusing System.Text.Json;\nusing System.Text.Json.Serialization;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney : IChimoneyBase\n{\n    /// <summary>\n    /// Base Url for API\n    /// </summary>\n    public static string BaseUrl { get; set; } = \"https://api.chimoney.io/v0.2/\";\n\n    private static HttpClient _httpClient;\n\n    /// <summary>\n    /// Developer API Key\n    /// </summary>\n    private readonly string APIKey;\n\n    private readonly static JsonSerializerOptions serializerOptions = ne"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyAccount.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 151,
+      "preview": "\ufeffusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Responses;\nusing ChimoneyDotNet.Models;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney\n{\n\n    public async Task<Response<TransferDetail>> AccountTransfer(AccountTransfer accountTransfer)\n    {\n        string url = BaseUrl + \"/accounts/transfer\";\n        var request = SetupRequestObject(HttpMethod.Post, url);\n        string json;\n        if (accountTransfer.SubAccount == null)\n        {\n  "
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyInfo.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 143,
+      "preview": "\ufeffusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Models;\nusing ChimoneyDotNet.Responses;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\n/// <summary>\n/// Entrypoint for interfacing with Chimoney API\n/// </summary>\npublic partial class Chimoney\n{\n    public async Task<Response<string[]>> GetSupportedAirtimeCountries()\n    {\n        var url = BaseUrl + \"/info/airtime-countries\";\n        var request = SetupRequestObject(HttpMethod.Get, url);\n\n\n        var response = aw"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyPayments.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 74,
+      "preview": "\ufeff\nusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Models;\nusing ChimoneyDotNet.Responses;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney\n{\n    public async Task<PaymentResponse<PaymentInfo>> InitiatePaymentRequest(PaymentRequest paymentRequest)\n    {\n        var url = $\"{BaseUrl}/payment/initiate\";\n        var request = SetupRequestObject(HttpMethod.Post, url);\n        request.Content = new StringContent(JsonSerializer.Serialize(payment"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyPayout.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 168,
+      "preview": "\ufeffusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Models;\nusing ChimoneyDotNet.Responses;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney\n{\n    public async Task<Response<PayoutResult<Payout>>> PayoutAirtime(PayoutRequest<AirtimePayout> airtimePayoutRequest)\n    {\n        var url = $\"{BaseUrl}/payouts/airtime\";\n        var request = SetupRequestObject(HttpMethod.Post, url);\n        var data = new\n        {\n            subAccount = airtime"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyRedeem.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 70,
+      "preview": "\ufeffusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Models;\nusing ChimoneyDotNet.Responses;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney\n{\n    public async Task<Response<object>> RedeemAirtimecard(RedeemAirtimeRequest redeemRequest)\n    {\n        var url = $\"{BaseUrl}/redeem/airtime\";\n        var request = SetupRequestObject(HttpMethod.Post, url);\n        request.Content = new StringContent(JsonSerializer.Serialize(redeemRequest, seriali"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneySubAccount.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 73,
+      "preview": "\ufeffusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Models;\nusing ChimoneyDotNet.Responses;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney\n{\n    public async Task<Response<SubAccount>> CreateSubAccount(CreateSubAccountRequest subAccount)\n    {\n        var url  = $\"{BaseUrl}/sub-account/create\";\n        var request = SetupRequestObject(HttpMethod.Post, url);\n        request.Content = new StringContent(JsonSerializer.Serialize(subAccount, se"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/APIService/ChimoneyWallet.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 53,
+      "preview": "\ufeff\nusing ChimoneyDotNet.Exceptions;\nusing ChimoneyDotNet.Models;\nusing ChimoneyDotNet.Responses;\nusing System.Text;\nusing System.Text.Json;\n\nnamespace ChimoneyDotNet;\n\npublic partial class Chimoney\n{\n    public async Task<Response<IEnumerable<Wallet>>> ListAssociatedWallets(string? subAccount = null)\n    {\n        var url = $\"{BaseUrl}/wallets/list\";\n        var request = SetupRequestObject(HttpMethod.Post, url);\n        request.Content = new StringContent(JsonSerializer.Serialize(new { subAccoun"
+    },
+    {
+      "file": "SDK Submissions/chimoney_rust_sdk/src/core/api_client.rs",
+      "exports": [],
+      "imports": [],
+      "lines": 162,
+      "preview": "use dotenv::dotenv;\nuse reqwest::Client;\nuse std::env;\n\n#[derive()]\npub struct APIClient {\n    content_type: String,\n    accept: String,\n    base_url: String,\n    api_key: String,\n}\n\nimpl APIClient {\n    pub fn new(use_sandbox: bool) -> Result<APIClient, String> {\n        let production_base_url = \"https://api.chimoney.io\".to_string();\n        let sandbox_base_url = \"https://api-v2-sandbox.chimoney.io\".to_string();\n        let content_type = \"application/json\".to_string();\n        let accept = \""
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/AccountTransfer.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 13,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\n/// <summary>\n/// An account transfer\n/// </summary>\npublic class AccountTransfer\n{\n    public string? ChiRef { get; set; } = null;\n    public string ReceiverId { get; set; }\n    public decimal ValueInUSD { get; set; }\n    public string WalletType { get; set; }\n    public string? SubAccount { get; set; } = null;\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/Transaction.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 17,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\n/// <summary>\n/// Base transaction model\n/// </summary>\npublic class Transaction\n{\n    public string Id { get; set; }\n    public string IssueDate { get; set; }\n    public string IssueId { get; set; }\n    /// <summary>\n    /// Transaction Reference\n    /// </summary>\n    public string ChiRef { get; set; }\n    public string Status { get; set; }\n    public string Issuer { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/TransactionDetail.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 15,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\n/// <summary>\n/// Transaction Detail\n/// </summary>\npublic class TransactionDetail : Transaction\n{\n    public string InitiatedBy { get; set; }\n    public string Email { get; set; }\n    public decimal Chimoney { get; set; }\n    public decimal ValueInUSD { get; set; }\n    public string[] EnabledToRedeem { get; set; }\n    //HACK another way to do this?\n    public string? Error { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Account/TransferDetail.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 14,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n/// <summary>\n/// Transfer Detail Model\n/// </summary>\npublic class TransferDetail\n{\n    public string Sender { get; set; }\n    public string Wallet { get; set; }\n    public decimal ValueInUSD { get; set; }\n    public string TnxID { get; set; }\n    public string Receiver { get; set; }\n    //TODO ensure to handle this specially\n    public string Error { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/Bank.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 8,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class Bank\n{\n    public int Id { get; set; }\n    public string Code { get; set; }\n    public string Name { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/BankAccount.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 28,
+      "preview": "\ufeffusing System.Text.Json.Serialization;\n\nnamespace ChimoneyDotNet.Models;\n\n/// <summary>\n/// Bank account for verfication\n/// </summary>\npublic class BankAccount\n{\n    /// <summary>\n    /// Country of Bank to verify\n    /// </summary>\n\n    [JsonPropertyName(\"countryCode\")]\n    public string CountryCode { get; set; }\n\n    /// <summary>\n    /// Bank Code\n    /// </summary>\n    [JsonPropertyName(\"account_bank\")]\n    public string Account_Bank { get; set; }\n\n    /// <summary>\n    /// Account Number\n "
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/BankBranch.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 8,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class BankBranch\n{\n    public int Id { get; set; }\n    public string Branch_Code { get; set; }\n    public string Branch_Name { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/BenefitsData.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 6,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class BenefitsData\n{\n    public IEnumerable<Benefit> BenefitsList { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/ConversionToUSD.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 9,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class ConversionToUSD\n{\n    public string AmountInOriginCurrency { get; set; }\n    public string OriginCurrency { get; set; }\n    public decimal AmountInUSD { get; set; }\n    public string ValidUntil { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/MobileMoneyCode.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 9,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class MobileMoneyCode\n{\n    public string Name { get; set; }\n    public string Country { get; set; }\n    public string Code { get; set; }\n    public string? Provider { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Info/USDToLocalConversion.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 9,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class USDToLocalConversion\n{\n    public string AmountInUSD { get; set; }\n    public string DestinationCurrency { get; set; }\n    public decimal AmountInDestinationCurrency { get; set; }\n    public string ValidUntil { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Payment/PaymentInfo.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 27,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class PaymentInfo\n{\n    public decimal ValueInUSD { get; set; }\n    public decimal Chimoney { get; set; }\n    public string IssueID { get; set; }\n    public decimal Fee { get; set; }\n    public string Type { get; set; }\n    public string Issuer { get; set; }\n    public string ChiRef { get; set; }\n    public Dictionary<string, string> Integration { get; set; }\n    public string IssueDate { get; set; }\n    public string PayerEmail { get; set; }\n    public "
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Payment/PaymentRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 33,
+      "preview": "\ufeff\nusing System.Text.Json.Serialization;\n\nnamespace ChimoneyDotNet.Models;\n\npublic class PaymentRequest\n{\n    /// <summary>\n    /// Amount in USD to collect\n    /// </summary>\n    public decimal ValueInUSD { get; set; }\n\n    /// <summary>\n    /// Email of the one making the payment\n    /// </summary>\n    public string PayerEmail { get; set; }\n\n    /// <summary>\n    /// Url to redirect to after payment in confirmed\n    /// </summary>\n    [JsonPropertyName(\"redirect_url\")]\n    public string Redirec"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Payment/PaymentVerification.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 19,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class PaymentVerification\n{\n    public string PaymentLink { get; set; }\n    public string Error { get; set; }\n    /// <summary>\n    /// An array of objects containing data\n    /// </summary>\n    public IEnumerable<Dictionary<string, string>> Data { get; set; }\n    //TODO: Add CryptoPayment\n    public CryptoPayment CryptoPayment { get; set; }\n\n    /// <summary>\n    /// Message from Chimoney. Should be null if no error\n    /// Works in simulation\n    /// <"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemAirtimeRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 13,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class RedeemAirtimeRequest : RedeemRequest\n{\n    public string PhoneNumber { get; set; }\n\n    /// <summary>\n    /// Country to send to\n    /// </summary>\n    public string CountryToSend { get; set; }\n\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemAnyRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 7,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class RedeemAnyRequest : RedeemRequest\n{\n    public Dictionary<string, object> RedeemData { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemChimoneyRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 8,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class RedeemChimoneyRequest : RedeemRequest\n{\n    public bool TurnOffNotification { get; set; }\n    public List<Dictionary<string, object>> Chimoneys { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemGiftcardRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 7,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class RedeemGiftcardRequest : RedeemRequest\n{\n    public Dictionary<string, object> RedeemOptions { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemMobileMoneyRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 6,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class RedeemMobileMoneyRequest : RedeemRequest\n{\n    public Dictionary<string, object> RedeemOptions { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 13,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic abstract class RedeemRequest\n{\n    public string? SubAccount { get; set; }\n\n    public string ChiRef { get; set; }\n\n    public Dictionary<string, object> Meta { get; set; }\n\n  \n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Redeem/RedeemResult.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 7,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class RedeemResult\n{\n    //HACK don't know what this is\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/SubAccount/CreateSubAccountRequest.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 22,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class CreateSubAccountRequest\n{\n    public string Name { get; set; }\n    /// <summary>\n    /// Email of the user\n    /// </summary>\n    public string Email { get; set; }\n    /// <summary>\n    /// First name of the user\n    /// </summary>\n    public string FirstName { get; set; }\n    /// <summary>\n    /// Last name of the user\n    /// </summary>\n    public string LastName { get; set; }\n    /// <summary>\n    /// phone number with country code\n    /// </sum"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/SubAccount/SubAccount.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 19,
+      "preview": "\ufeffusing System.Text.Json.Serialization;\n\nnamespace ChimoneyDotNet.Models;\n\npublic class SubAccount\n{\n    public string? Id { get; set; }\n    public string Parent { get; set; }\n    public string Uid { get; set; }\n    public string Name { get; set; }\n    [JsonPropertyName(\"subAccount\")]\n    public bool IsSubAccount { get; set; } \n    /// <summary>\n    /// Dictionary to store any extra data\n    /// </summary>\n    public Dictionary<string,object> Meta { get; set; }\n    public IEnumerable<Wallet> Wall"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/SubAccount/UpdateSubAccount.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 11,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class UpdateSubAccount\n{\n    public string Id { get; set; }\n    public Dictionary<string,object> Meta { get; set; }\n    public string FirstName { get; set; }\n    public string LastName { get; set; }\n    public string PhoneNumber { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Benefit.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 15,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class Benefit\n{\n    public string Name { get; set; }\n    public string Img { get; set; }\n    public string Description { get; set; }\n    //public string[] Countries {  get; set; }\n    public string Code { get; set; }\n    public string Type { get; set; }\n    public bool Available { get; set; }\n    //public bool? Offline { get; set; }\n    //public bool? IsCorPaySupported { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/CryptoPayment.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 11,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\npublic class CryptoPayment\n{\n    /// <summary>\n    /// Wallet address\n    /// </summary>\n    public string Address { get; set; }\n    public string Issuer { get; set; }\n    public string Currency { get; set; }\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/PaymentData.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 31,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\n/// <summary>\n/// Data field in payment responses\n/// </summary>\npublic class PaymentData\n{\n    public string Id { get; set; }\n    public decimal ValueInUSD { get; set; }\n    public decimal Chimoney { get; set; }\n    public string IssueID { get; set; }\n    public decimal Fee { get; set; }\n    public string Type { get; set; }\n    public string InitiatorKey { get; set; }\n    public string Phone { get; set; }\n    public string ChiRef { get; set; }\n    public Dict"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Status.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 11,
+      "preview": "\ufeffnamespace ChimoneyDotNet.Models;\n\n/// <summary>\n/// Represents the status of a transaction\n/// </summary>\npublic class Status\n{\n    public const string Failed = \"failed\";\n    public const string Expired = \"expired\";\n    public const string Fraud = \"fraud\";\n}"
+    },
+    {
+      "file": "SDK Submissions/ChimoneyDotNet/Chimoney.Net/Models/Wallet.cs",
+      "exports": [],
+      "imports": [],
+      "lines": 21,
+      "preview": "\ufeff\nnamespace ChimoneyDotNet.Models;\n\npublic class Wallet\n{\n    public string Id { get; set; }\n    public string Owner { get; set; }\n    public decimal Balance { get; set; }\n    public string Type { get; set; }\n    public IEnumerable<WalletTransaction> Transactions { get; set; }\n\n}\n\npublic class WalletTransaction\n{\n    public decimal Amount { get; set; }\n    public decimal BalanceBefore { get; set; }\n    public Dictionary<string, object> Meta { get; set; }\n    public decimal NewBalance { get; set;"
+    },
+    {
+      "file": "SDK Submissions/chimoney_rust_sdk/src/account/account.rs",
+      "exports": [],
+      "imports": [],
+      "lines": 355,
+      "preview": "use crate::core::api_client::APIClient;\nuse serde_json::json;\n\n/// Get transaction details by issueID.\n///\n/// # Arguments\n///\n/// * `api_client` - An instance of the `APIClient` used to make API requests.\n/// * `issue_id` - The issueID of the transaction to be retrieved.\n/// * `sub_account` - The sub-account associated with the transaction.\n///\n/// # Returns\n///\n/// A `Result` containing a JSON string with the transaction details if successful,\n/// or an error if the request fails.\n///\n/// # Ex"
+    },
+    {
+      "file": "SDK Submissions/chimoney_rust_sdk/src/account/mod.rs",
+      "exports": [],
+      "imports": [],
+      "lines": 1,
+      "preview": "pub mod account;"
+    }
+  ],
+  "metadata": {
+    "README.md": "# Chimoney SDK Challenge <> GDSC Covenant University\n\n<div align=\"center\" id=\"initial\">\n  <a href=\"https://chimoney.io/\" target=\"_blank\">\n  <picture>\n    <img src=\"https://chimoney.io/assets/icons/chimoney-purple-logo.svg\" width=\"280\" alt=\"Logo\"/>\n  </picture>\n  </a>\n</div>\n\n<a name=\"readme-top\"></a>\n\n<!--[![Contributors][contributors-shield]][https://github.com/dsccovenantuniversity/Chimoney-SDK-Challenge-Covenant-University/graphs/contributors]\n[![Forks][forks-shield]][forks-url]\n[![Stargazers][stars-shield]][stars-url]\n[![Issues][issues-shield]][issues-url]\n[![MIT License][license-shield]][license-url]\n[![LinkedIn][linkedin-shield]][linkedin-url]-->\n\n<!-- PROJECT LOGO -->\n<br />\n<div align=\"center\">\n  <a href=\"https://github.com/othneildrew/Best-README-Template\">\n    <img src=\"Images/logo.png\" alt=\"Logo\" width=\"80\" height=\"80\">\n  </a>\n\n  <p align=\"center\">\n    <a href=\"https://chimoney.readme.io/reference/introduction\"><strong>Explore the Chimoney API docs \u00bb</strong></a>\n    <br />\n    <br />\n    <a href=\"\">View Demo</a>\n    \u00b7\n    <a href=\"https://github.com/dsccovenantuniversity/Chimoney-SDK-Challenge-Covenant-University/issues\">Report Bug</a>\n    \u00b7\n    <a href=\"\">Request Feature</a>\n  </p>\n</div>\n\n<!-- TABLE OF CONTENTS -->\n<details>\n  <summary>Table of Contents</summary>\n  <ol>\n    <li>\n      <a href=\"#about-the-challenge\">About The Project</a>\n    </li>\n      <a href=\"#getting-started\">Getting Started</a>\n      <ul>\n        <li><a href=\"#prerequisites\">Prerequisites</a></li>\n        <li><a href=\"#installation\">Installation</a></li>\n      </ul>\n    </li>\n    <li><a href=\"#usage\">Usage</a></li>\n    <li><a href=\"#contributing\">Contributing</a></li>\n    <li><a href=\"#license\">License</a></li>\n    <li><a href=\"#contact\">Contact</a></li>\n  </ol>\n</details>\n\n<!-- ABOUT THE PROJECT -->\n\n## About The Project\nWelcome to the Chimoney <> GDSC Covenant University SDK Challenge, a collaborative initiative between Chimoney and the Google Developer Student Club (GDSC) at Cov"
+  }
+}
