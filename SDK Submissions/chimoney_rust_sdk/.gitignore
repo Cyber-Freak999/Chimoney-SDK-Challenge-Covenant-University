@@ -1,16 +1,2 @@
 /target
 /.vscode
-
-# IDE files
-*.swp
-*.swo
-*~
-
-# Environment variables
-.env
-
-# Cargo lock (for libraries)
-Cargo.lock
-
-# Superpowers directory
-.superpowers/
