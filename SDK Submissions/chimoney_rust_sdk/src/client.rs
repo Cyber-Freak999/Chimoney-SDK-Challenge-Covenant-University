@@ -799,6 +799,124 @@ impl ChimoneyClient {
             .map_err(|e| ChimoneyError::ParseError(e.to_string()))
     }
 
+    // ── Multicurrency Wallet Methods ────────────────────────────────
+
+    /// Create a multicurrency wallet.
+    pub async fn create_multicurrency_wallet(
+        &self,
+        request: &crate::types::CreateMulticurrencyWalletRequest,
+    ) -> Result<crate::types::MulticurrencyWalletResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/create";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Update a multicurrency wallet.
+    pub async fn update_multicurrency_wallet(
+        &self,
+        request: &crate::types::UpdateMulticurrencyWalletRequest,
+    ) -> Result<crate::types::MulticurrencyWalletResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/update";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.patch(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Get a multicurrency wallet by ID.
+    pub async fn get_multicurrency_wallet(
+        &self,
+        wallet_id: &str,
+    ) -> Result<crate::types::MulticurrencyWalletResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/get";
+        let query = format!("walletId={}", wallet_id);
+        let response = self.get(path, Some(&query)).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// List all multicurrency wallets.
+    pub async fn list_multicurrency_wallets(
+        &self,
+    ) -> Result<crate::types::MulticurrencyWalletListResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/list";
+        let response = self.get(path, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Get a transfer quote.
+    pub async fn get_transfer_quote(
+        &self,
+        request: &crate::types::TransferQuoteRequest,
+    ) -> Result<crate::types::TransferQuoteResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/transfer-quote";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Transfer between multicurrency wallets.
+    pub async fn transfer_multicurrency(
+        &self,
+        request: &crate::types::MulticurrencyTransferRequest,
+    ) -> Result<crate::types::MulticurrencyTransferResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/transfer";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Issue a multicurrency wallet.
+    pub async fn issue_multicurrency_wallet(
+        &self,
+        request: &crate::types::IssueWalletRequest,
+    ) -> Result<crate::types::MulticurrencyWalletResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/request";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Issue a bank account.
+    pub async fn issue_bank_account(
+        &self,
+        request: &crate::types::IssueBankAccountRequest,
+    ) -> Result<crate::types::MulticurrencyWalletResponse> {
+        let path = "/v0.2.4/multicurrency-wallets/bank-account";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
     // ── Info Methods ───────────────────────────────────────────────
 
     /// Get airtime countries.

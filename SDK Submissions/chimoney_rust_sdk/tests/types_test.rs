@@ -1336,3 +1336,338 @@ fn test_preview_transfer_response_optional_fields() {
     assert!(response.total_amount.is_none());
     assert!(response.destination_amount.is_none());
 }
+
+// === Multicurrency Wallet types ===
+
+#[test]
+fn test_multicurrency_wallet_deserialization() {
+    let json = r#"{
+        "id": "mcw_001",
+        "currency": "EUR",
+        "balance": 1250.50,
+        "subAccount": "sub_mc",
+        "meta": {"label": "EUR Wallet"},
+        "createdAt": "2024-01-01T00:00:00Z"
+    }"#;
+    let wallet: MulticurrencyWallet = serde_json::from_str(json).unwrap();
+    assert_eq!(wallet.id, "mcw_001");
+    assert_eq!(wallet.currency, "EUR");
+    assert_eq!(wallet.balance, Some(1250.50));
+    assert_eq!(wallet.sub_account, Some("sub_mc".to_string()));
+    assert!(wallet.meta.is_some());
+    assert_eq!(wallet.created_at, Some("2024-01-01T00:00:00Z".to_string()));
+}
+
+#[test]
+fn test_multicurrency_wallet_minimal() {
+    let json = r#"{
+        "id": "mcw_min",
+        "currency": "GBP"
+    }"#;
+    let wallet: MulticurrencyWallet = serde_json::from_str(json).unwrap();
+    assert_eq!(wallet.id, "mcw_min");
+    assert_eq!(wallet.currency, "GBP");
+    assert!(wallet.balance.is_none());
+    assert!(wallet.sub_account.is_none());
+    assert!(wallet.meta.is_none());
+    assert!(wallet.created_at.is_none());
+}
+
+#[test]
+fn test_multicurrency_wallet_serialization() {
+    let wallet = MulticurrencyWallet {
+        id: "mcw_s".to_string(),
+        currency: "NGN".to_string(),
+        balance: Some(500.0),
+        sub_account: Some("sub_s".to_string()),
+        meta: None,
+        created_at: None,
+    };
+    let json = serde_json::to_string(&wallet).unwrap();
+    assert!(json.contains("id"));
+    assert!(json.contains("mcw_s"));
+    assert!(json.contains("currency"));
+    assert!(json.contains("NGN"));
+    assert!(json.contains("balance"));
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_s"));
+}
+
+#[test]
+fn test_create_multicurrency_wallet_request_serialization() {
+    let request = CreateMulticurrencyWalletRequest {
+        sub_account: "sub_create".to_string(),
+        currency: "EUR".to_string(),
+        meta: Some(serde_json::json!({"purpose": "savings"})),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_create"));
+    assert!(json.contains("currency"));
+    assert!(json.contains("EUR"));
+    assert!(json.contains("meta"));
+    assert!(json.contains("purpose"));
+}
+
+#[test]
+fn test_create_multicurrency_wallet_request_no_meta() {
+    let request = CreateMulticurrencyWalletRequest {
+        sub_account: "sub_nm".to_string(),
+        currency: "USD".to_string(),
+        meta: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_nm"));
+    assert!(json.contains("currency"));
+    assert!(json.contains("USD"));
+    assert!(!json.contains("meta"));
+}
+
+#[test]
+fn test_update_multicurrency_wallet_request_serialization() {
+    let request = UpdateMulticurrencyWalletRequest {
+        wallet_id: "mcw_upd".to_string(),
+        meta: Some(serde_json::json!({"label": "updated"})),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("walletId"));
+    assert!(json.contains("mcw_upd"));
+    assert!(json.contains("meta"));
+    assert!(json.contains("updated"));
+}
+
+#[test]
+fn test_update_multicurrency_wallet_request_no_meta() {
+    let request = UpdateMulticurrencyWalletRequest {
+        wallet_id: "mcw_up2".to_string(),
+        meta: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("walletId"));
+    assert!(json.contains("mcw_up2"));
+    assert!(!json.contains("meta"));
+}
+
+#[test]
+fn test_multicurrency_wallet_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Wallet created",
+        "data": {
+            "id": "mcw_resp",
+            "currency": "EUR",
+            "balance": 0.0,
+            "subAccount": "sub_resp",
+            "createdAt": "2024-06-01T00:00:00Z"
+        }
+    }"#;
+    let response: MulticurrencyWalletResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Wallet created".to_string()));
+    let data = response.data.unwrap();
+    assert_eq!(data.id, "mcw_resp");
+    assert_eq!(data.currency, "EUR");
+}
+
+#[test]
+fn test_multicurrency_wallet_response_no_data() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: MulticurrencyWalletResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.message.is_none());
+    assert!(response.data.is_none());
+}
+
+#[test]
+fn test_multicurrency_wallet_list_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": [
+            {"id": "mcw1", "currency": "EUR"},
+            {"id": "mcw2", "currency": "GBP"}
+        ]
+    }"#;
+    let response: MulticurrencyWalletListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    let data = response.data.unwrap();
+    assert_eq!(data.len(), 2);
+    assert_eq!(data[0].id, "mcw1");
+    assert_eq!(data[1].currency, "GBP");
+}
+
+#[test]
+fn test_multicurrency_wallet_list_response_empty() {
+    let json = r#"{
+        "status": "success",
+        "data": []
+    }"#;
+    let response: MulticurrencyWalletListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    assert!(response.data.unwrap().is_empty());
+}
+
+#[test]
+fn test_multicurrency_wallet_list_response_no_data() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: MulticurrencyWalletListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_none());
+}
+
+#[test]
+fn test_transfer_quote_request_serialization() {
+    let request = TransferQuoteRequest {
+        from_wallet: "mcw_from".to_string(),
+        to_wallet: "mcw_to".to_string(),
+        amount: 100.0,
+        from_currency: "EUR".to_string(),
+        to_currency: "GBP".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("fromWallet"));
+    assert!(json.contains("mcw_from"));
+    assert!(json.contains("toWallet"));
+    assert!(json.contains("mcw_to"));
+    assert!(json.contains("amount"));
+    assert!(json.contains("100.0"));
+    assert!(json.contains("fromCurrency"));
+    assert!(json.contains("EUR"));
+    assert!(json.contains("toCurrency"));
+    assert!(json.contains("GBP"));
+}
+
+#[test]
+fn test_transfer_quote_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "exchangeRate": 0.85,
+        "fee": 1.5,
+        "sourceAmount": 100.0,
+        "destinationAmount": 83.5
+    }"#;
+    let response: TransferQuoteResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.exchange_rate, Some(0.85));
+    assert_eq!(response.fee, Some(1.5));
+    assert_eq!(response.source_amount, Some(100.0));
+    assert_eq!(response.destination_amount, Some(83.5));
+}
+
+#[test]
+fn test_transfer_quote_response_optional_fields() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: TransferQuoteResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.exchange_rate.is_none());
+    assert!(response.fee.is_none());
+    assert!(response.source_amount.is_none());
+    assert!(response.destination_amount.is_none());
+}
+
+#[test]
+fn test_multicurrency_transfer_request_serialization() {
+    let request = MulticurrencyTransferRequest {
+        from_wallet: "mcw_src".to_string(),
+        recipient: "recv@test.com".to_string(),
+        amount: 250.0,
+        from_currency: "EUR".to_string(),
+        to_currency: "USD".to_string(),
+        note: Some("Monthly transfer".to_string()),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("fromWallet"));
+    assert!(json.contains("mcw_src"));
+    assert!(json.contains("recipient"));
+    assert!(json.contains("recv@test.com"));
+    assert!(json.contains("amount"));
+    assert!(json.contains("250.0"));
+    assert!(json.contains("fromCurrency"));
+    assert!(json.contains("EUR"));
+    assert!(json.contains("toCurrency"));
+    assert!(json.contains("USD"));
+    assert!(json.contains("note"));
+    assert!(json.contains("Monthly transfer"));
+}
+
+#[test]
+fn test_multicurrency_transfer_request_no_note() {
+    let request = MulticurrencyTransferRequest {
+        from_wallet: "mcw_nn".to_string(),
+        recipient: "other@test.com".to_string(),
+        amount: 50.0,
+        from_currency: "GBP".to_string(),
+        to_currency: "NGN".to_string(),
+        note: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("fromWallet"));
+    assert!(json.contains("recipient"));
+    assert!(json.contains("amount"));
+    assert!(json.contains("fromCurrency"));
+    assert!(json.contains("toCurrency"));
+    assert!(!json.contains("note"));
+}
+
+#[test]
+fn test_multicurrency_transfer_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "transactionId": "txn_mc_001",
+        "message": "Transfer completed"
+    }"#;
+    let response: MulticurrencyTransferResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.transaction_id, Some("txn_mc_001".to_string()));
+    assert_eq!(response.message, Some("Transfer completed".to_string()));
+}
+
+#[test]
+fn test_multicurrency_transfer_response_minimal() {
+    let json = r#"{
+        "status": "pending"
+    }"#;
+    let response: MulticurrencyTransferResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "pending");
+    assert!(response.transaction_id.is_none());
+    assert!(response.message.is_none());
+}
+
+#[test]
+fn test_issue_wallet_request_serialization() {
+    let request = IssueWalletRequest {
+        sub_account: "sub_issue".to_string(),
+        currency: "EUR".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_issue"));
+    assert!(json.contains("currency"));
+    assert!(json.contains("EUR"));
+}
+
+#[test]
+fn test_issue_bank_account_request_serialization() {
+    let request = IssueBankAccountRequest {
+        sub_account: "sub_bank".to_string(),
+        country_code: "NG".to_string(),
+        bank_code: "044".to_string(),
+        account_number: "1234567890".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_bank"));
+    assert!(json.contains("countryCode"));
+    assert!(json.contains("NG"));
+    assert!(json.contains("bankCode"));
+    assert!(json.contains("044"));
+    assert!(json.contains("accountNumber"));
+    assert!(json.contains("1234567890"));
+}
