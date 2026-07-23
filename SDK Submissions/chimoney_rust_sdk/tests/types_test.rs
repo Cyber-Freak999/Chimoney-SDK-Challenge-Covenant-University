@@ -1,5 +1,6 @@
 use chimoney_rust_sdk::types::*;
 use chimoney_rust_sdk::ChimoneyError;
+use std::collections::HashMap;
 
 #[test]
 fn test_transaction_serialization() {
@@ -226,4 +227,605 @@ fn test_error_type() {
 
     let error = ChimoneyError::RateLimited { retry_after: 60 };
     assert!(error.to_string().contains("60"));
+}
+
+// === Account types ===
+
+#[test]
+fn test_transfer_response_deserialization() {
+    let json = r#"{
+        "id": "txn_456",
+        "status": "success",
+        "message": "Transfer completed"
+    }"#;
+    let response: TransferResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.id, "txn_456");
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Transfer completed".to_string()));
+}
+
+#[test]
+fn test_initiate_chimoney_request_serialization() {
+    let request = InitiateChimoneyRequest {
+        receiver: "user@example.com".to_string(),
+        value_in_usd: 25.0,
+        sub_account: None,
+        turn_off_notification: Some(true),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("receiver"));
+    assert!(json.contains("user@example.com"));
+    assert!(json.contains("valueInUsd"));
+    assert!(json.contains("25.0"));
+    assert!(json.contains("turnOffNotification"));
+    assert!(json.contains("true"));
+    assert!(!json.contains("subAccount"));
+}
+
+#[test]
+fn test_initiate_chimoney_response_deserialization() {
+    let json = r#"{
+        "id": "chi_789",
+        "status": "pending",
+        "message": "Transaction initiated"
+    }"#;
+    let response: InitiateChimoneyResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.id, "chi_789");
+    assert_eq!(response.status, "pending");
+    assert_eq!(response.message, Some("Transaction initiated".to_string()));
+}
+
+#[test]
+fn test_delete_unpaid_transaction_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Transactions deleted"
+    }"#;
+    let response: DeleteUnpaidTransactionResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Transactions deleted".to_string()));
+}
+
+// === Payment types ===
+
+#[test]
+fn test_payment_verification_deserialization() {
+    let json = r#"{
+        "id": "pay_ver_001",
+        "status": "verified",
+        "amount": 150.50,
+        "currency": "USD",
+        "message": "Payment verified"
+    }"#;
+    let verification: PaymentVerification = serde_json::from_str(json).unwrap();
+    assert_eq!(verification.id, "pay_ver_001");
+    assert_eq!(verification.status, "verified");
+    assert_eq!(verification.amount, Some(150.50));
+    assert_eq!(verification.currency, Some("USD".to_string()));
+    assert_eq!(verification.message, Some("Payment verified".to_string()));
+}
+
+// === Payout types ===
+
+#[test]
+fn test_payout_request_base_serialization() {
+    let request = PayoutRequest {
+        sub_account: None,
+        turn_off_notification: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(!json.contains("subAccount"));
+    assert!(!json.contains("turnOffNotification"));
+}
+
+#[test]
+fn test_airtime_payout_request_serialization() {
+    let request = AirtimePayoutRequest {
+        base: PayoutRequest {
+            sub_account: Some("sub_001".to_string()),
+            turn_off_notification: None,
+        },
+        transfers: vec![AirtimeTransfer {
+            phone_number: "+2348012345678".to_string(),
+            amount: 10.0,
+            country_code: "NG".to_string(),
+        }],
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_001"));
+    assert!(json.contains("transfers"));
+    assert!(json.contains("phoneNumber"));
+    assert!(json.contains("+2348012345678"));
+    assert!(json.contains("amount"));
+    assert!(json.contains("10.0"));
+    assert!(json.contains("countryCode"));
+    assert!(json.contains("NG"));
+    assert!(!json.contains("turnOffNotification"));
+}
+
+#[test]
+fn test_chimoney_payout_request_serialization() {
+    let request = ChimoneyPayoutRequest {
+        base: PayoutRequest {
+            sub_account: None,
+            turn_off_notification: Some(false),
+        },
+        transfers: vec![ChimoneyTransfer {
+            receiver: "user@test.com".to_string(),
+            value_in_usd: 5.0,
+        }],
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("turnOffNotification"));
+    assert!(json.contains("false"));
+    assert!(json.contains("transfers"));
+    assert!(json.contains("receiver"));
+    assert!(json.contains("user@test.com"));
+    assert!(json.contains("valueInUsd"));
+    assert!(json.contains("5.0"));
+    assert!(!json.contains("subAccount"));
+}
+
+#[test]
+fn test_mobile_money_payout_request_serialization() {
+    let request = MobileMoneyPayoutRequest {
+        base: PayoutRequest {
+            sub_account: None,
+            turn_off_notification: None,
+        },
+        transfers: vec![MobileMoneyTransfer {
+            phone_number: "+233201234567".to_string(),
+            amount: 20.0,
+            country_code: "GH".to_string(),
+            provider_code: "MTN".to_string(),
+        }],
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("transfers"));
+    assert!(json.contains("phoneNumber"));
+    assert!(json.contains("+233201234567"));
+    assert!(json.contains("amount"));
+    assert!(json.contains("20.0"));
+    assert!(json.contains("countryCode"));
+    assert!(json.contains("GH"));
+    assert!(json.contains("providerCode"));
+    assert!(json.contains("MTN"));
+}
+
+#[test]
+fn test_giftcard_payout_request_serialization() {
+    let request = GiftCardPayoutRequest {
+        base: PayoutRequest {
+            sub_account: Some("sub_gc".to_string()),
+            turn_off_notification: Some(true),
+        },
+        transfers: vec![GiftCardTransfer {
+            receiver: "gift@example.com".to_string(),
+            value_in_usd: 50.0,
+            provider: "amazon".to_string(),
+        }],
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_gc"));
+    assert!(json.contains("turnOffNotification"));
+    assert!(json.contains("transfers"));
+    assert!(json.contains("receiver"));
+    assert!(json.contains("gift@example.com"));
+    assert!(json.contains("valueInUsd"));
+    assert!(json.contains("50.0"));
+    assert!(json.contains("provider"));
+    assert!(json.contains("amazon"));
+}
+
+#[test]
+fn test_interledger_payout_request_serialization() {
+    let request = InterledgerPayoutRequest {
+        base: PayoutRequest {
+            sub_account: None,
+            turn_off_notification: None,
+        },
+        transfers: vec![InterledgerTransfer {
+            receiver_address: "ilp_addr_123".to_string(),
+            value_in_usd: 30.0,
+        }],
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("transfers"));
+    assert!(json.contains("receiverAddress"));
+    assert!(json.contains("ilp_addr_123"));
+    assert!(json.contains("valueInUsd"));
+    assert!(json.contains("30.0"));
+}
+
+#[test]
+fn test_wallet_payout_request_serialization() {
+    let request = WalletPayoutRequest {
+        base: PayoutRequest {
+            sub_account: Some("sub_w".to_string()),
+            turn_off_notification: Some(true),
+        },
+        transfers: vec![WalletTransfer {
+            receiver: "wallet_user@test.com".to_string(),
+            value_in_usd: 40.0,
+            wallet_id: "wallet_abc".to_string(),
+        }],
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_w"));
+    assert!(json.contains("turnOffNotification"));
+    assert!(json.contains("transfers"));
+    assert!(json.contains("receiver"));
+    assert!(json.contains("wallet_user@test.com"));
+    assert!(json.contains("valueInUsd"));
+    assert!(json.contains("40.0"));
+    assert!(json.contains("walletId"));
+    assert!(json.contains("wallet_abc"));
+}
+
+#[test]
+fn test_payout_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Payout processed",
+        "id": "payout_001"
+    }"#;
+    let response: PayoutResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Payout processed".to_string()));
+    assert_eq!(response.id, Some("payout_001".to_string()));
+}
+
+#[test]
+fn test_payout_status_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Status retrieved",
+        "data": {"id": "payout_001", "status": "completed"}
+    }"#;
+    let response: PayoutStatusResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Status retrieved".to_string()));
+    assert!(response.data.is_some());
+    let data = response.data.unwrap();
+    assert_eq!(data["id"], "payout_001");
+    assert_eq!(data["status"], "completed");
+}
+
+// === Redeem types ===
+
+#[test]
+fn test_redeem_request_base_serialization() {
+    let request = RedeemRequest {
+        sub_account: "sub_redeem".to_string(),
+        chi_ref: None,
+        turn_off_notification: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_redeem"));
+    assert!(!json.contains("chiRef"));
+    assert!(!json.contains("turnOffNotification"));
+}
+
+#[test]
+fn test_redeem_chimoney_request_serialization() {
+    let mut chimoneys = HashMap::new();
+    chimoneys.insert("tx_1".to_string(), "10.0".to_string());
+    chimoneys.insert("tx_2".to_string(), "20.0".to_string());
+    let request = RedeemChimoneyRequest {
+        base: RedeemRequest {
+            sub_account: "sub_rc".to_string(),
+            chi_ref: Some("ref_chi".to_string()),
+            turn_off_notification: Some(true),
+        },
+        chimoneys,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_rc"));
+    assert!(json.contains("chiRef"));
+    assert!(json.contains("ref_chi"));
+    assert!(json.contains("turnOffNotification"));
+    assert!(json.contains("chimoneys"));
+    assert!(json.contains("tx_1"));
+    assert!(json.contains("tx_2"));
+}
+
+#[test]
+fn test_redeem_giftcard_request_serialization() {
+    let mut redeem_options = HashMap::new();
+    redeem_options.insert("gc_1".to_string(), "50.0".to_string());
+    let request = RedeemGiftCardRequest {
+        base: RedeemRequest {
+            sub_account: "sub_gc_redeem".to_string(),
+            chi_ref: None,
+            turn_off_notification: None,
+        },
+        redeem_options,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_gc_redeem"));
+    assert!(json.contains("redeemOptions"));
+    assert!(json.contains("gc_1"));
+    assert!(!json.contains("chiRef"));
+    assert!(!json.contains("turnOffNotification"));
+}
+
+#[test]
+fn test_redeem_mobile_money_request_serialization() {
+    let mut redeem_options = HashMap::new();
+    redeem_options.insert("mm_1".to_string(), "30.0".to_string());
+    let request = RedeemMobileMoneyRequest {
+        base: RedeemRequest {
+            sub_account: "sub_mm".to_string(),
+            chi_ref: Some("ref_mm".to_string()),
+            turn_off_notification: None,
+        },
+        redeem_options,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_mm"));
+    assert!(json.contains("chiRef"));
+    assert!(json.contains("ref_mm"));
+    assert!(json.contains("redeemOptions"));
+    assert!(json.contains("mm_1"));
+}
+
+#[test]
+fn test_redeem_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Redeem processed",
+        "id": "redeem_001"
+    }"#;
+    let response: RedeemResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Redeem processed".to_string()));
+    assert_eq!(response.id, Some("redeem_001".to_string()));
+}
+
+// === SubAccount types ===
+
+#[test]
+fn test_sub_account_deserialization() {
+    let json = r#"{
+        "id": "sub_abc",
+        "name": "Test Sub",
+        "email": "sub@test.com",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "phoneNumber": "+15551234567"
+    }"#;
+    let sub: SubAccount = serde_json::from_str(json).unwrap();
+    assert_eq!(sub.id, "sub_abc");
+    assert_eq!(sub.name, "Test Sub");
+    assert_eq!(sub.email, Some("sub@test.com".to_string()));
+    assert_eq!(sub.first_name, Some("Jane".to_string()));
+    assert_eq!(sub.last_name, Some("Smith".to_string()));
+    assert_eq!(sub.phone_number, Some("+15551234567".to_string()));
+}
+
+#[test]
+fn test_create_sub_account_request_serialization() {
+    let request = CreateSubAccountRequest {
+        name: "New Sub".to_string(),
+        first_name: "Alice".to_string(),
+        last_name: "Wonder".to_string(),
+        email: "alice@sub.com".to_string(),
+        phone_number: "+15559876543".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("name"));
+    assert!(json.contains("New Sub"));
+    assert!(json.contains("firstName"));
+    assert!(json.contains("Alice"));
+    assert!(json.contains("lastName"));
+    assert!(json.contains("Wonder"));
+    assert!(json.contains("email"));
+    assert!(json.contains("alice@sub.com"));
+    assert!(json.contains("phoneNumber"));
+    assert!(json.contains("+15559876543"));
+}
+
+#[test]
+fn test_update_sub_account_request_all_none_serialization() {
+    let request = UpdateSubAccountRequest {
+        id: "sub_upd".to_string(),
+        first_name: None,
+        last_name: None,
+        phone_number: None,
+        meta: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("id"));
+    assert!(json.contains("sub_upd"));
+    assert!(!json.contains("firstName"));
+    assert!(!json.contains("lastName"));
+    assert!(!json.contains("phoneNumber"));
+    assert!(!json.contains("meta"));
+}
+
+#[test]
+fn test_sub_account_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Sub-account created",
+        "data": {"id": "sub_new", "name": "New Sub"}
+    }"#;
+    let response: SubAccountResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Sub-account created".to_string()));
+    assert!(response.data.is_some());
+    let data = response.data.unwrap();
+    assert_eq!(data["id"], "sub_new");
+    assert_eq!(data["name"], "New Sub");
+}
+
+#[test]
+fn test_sub_account_list_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": []
+    }"#;
+    let list: SubAccountList = serde_json::from_str(json).unwrap();
+    assert_eq!(list.status, "success");
+    assert!(list.data.is_some());
+    assert!(list.data.unwrap().is_empty());
+}
+
+// === Wallet types ===
+
+#[test]
+fn test_wallet_deserialization() {
+    let json = r#"{
+        "id": "wall_001",
+        "name": "Savings",
+        "currency": "USD",
+        "balance": 500.75
+    }"#;
+    let wallet: Wallet = serde_json::from_str(json).unwrap();
+    assert_eq!(wallet.id, "wall_001");
+    assert_eq!(wallet.name, Some("Savings".to_string()));
+    assert_eq!(wallet.currency, Some("USD".to_string()));
+    assert_eq!(wallet.balance, Some(500.75));
+}
+
+#[test]
+fn test_wallet_list_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": []
+    }"#;
+    let list: WalletList = serde_json::from_str(json).unwrap();
+    assert_eq!(list.status, "success");
+    assert!(list.data.is_some());
+    assert!(list.data.unwrap().is_empty());
+}
+
+#[test]
+fn test_wallet_lookup_request_serialization() {
+    let request = WalletLookupRequest {
+        wallet_id: "wall_lk".to_string(),
+        sub_account: "sub_lk".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("walletId"));
+    assert!(json.contains("wall_lk"));
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_lk"));
+}
+
+#[test]
+fn test_wallet_transfer_request_serialization() {
+    let request = WalletTransferRequest {
+        wallet: "wall_src".to_string(),
+        value_in_usd: 75.0,
+        sub_account: "sub_wt".to_string(),
+        receiver: "recv@test.com".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("wallet"));
+    assert!(json.contains("wall_src"));
+    assert!(json.contains("valueInUsd"));
+    assert!(json.contains("75.0"));
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_wt"));
+    assert!(json.contains("receiver"));
+    assert!(json.contains("recv@test.com"));
+}
+
+#[test]
+fn test_wallet_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Wallet retrieved",
+        "data": {"id": "wall_001"}
+    }"#;
+    let response: WalletResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Wallet retrieved".to_string()));
+    assert!(response.data.is_some());
+}
+
+// === Edge case tests ===
+
+#[test]
+fn test_transaction_all_fields_none() {
+    let transaction = Transaction {
+        id: "txn_edge".to_string(),
+        amount: 5.0,
+        currency: "USD".to_string(),
+        status: "pending".to_string(),
+        description: None,
+        created_at: None,
+    };
+    let json = serde_json::to_string(&transaction).unwrap();
+    assert!(json.contains("id"));
+    assert!(json.contains("txn_edge"));
+    assert!(json.contains("description"));
+    assert!(json.contains("createdAt"));
+    assert!(!json.contains("Test payment"));
+}
+
+#[test]
+fn test_payment_request_with_sub_account() {
+    let request = PaymentRequest {
+        email: "payer@test.com".to_string(),
+        amount: 200.0,
+        redirect_url: "https://example.com/ok".to_string(),
+        sub_account: Some("sub_pa".to_string()),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_pa"));
+    assert!(json.contains("email"));
+    assert!(json.contains("payer@test.com"));
+}
+
+#[test]
+fn test_bank_transfer_optional_beneficiary_name() {
+    let transfer = BankTransfer {
+        bank_code: "011".to_string(),
+        account_number: "9876543210".to_string(),
+        amount: 200.0,
+        currency: "NGN".to_string(),
+        country_code: "NG".to_string(),
+        beneficiary_name: None,
+    };
+    let json = serde_json::to_string(&transfer).unwrap();
+    assert!(json.contains("bankCode"));
+    assert!(json.contains("011"));
+    assert!(json.contains("accountNumber"));
+    assert!(json.contains("9876543210"));
+    assert!(!json.contains("beneficiaryName"));
+}
+
+#[test]
+fn test_update_sub_account_request_all_some() {
+    let mut meta = HashMap::new();
+    meta.insert("key1".to_string(), "val1".to_string());
+    let request = UpdateSubAccountRequest {
+        id: "sub_all".to_string(),
+        first_name: Some("Bob".to_string()),
+        last_name: Some("Builder".to_string()),
+        phone_number: Some("+15550001111".to_string()),
+        meta: Some(meta),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("id"));
+    assert!(json.contains("sub_all"));
+    assert!(json.contains("firstName"));
+    assert!(json.contains("Bob"));
+    assert!(json.contains("lastName"));
+    assert!(json.contains("Builder"));
+    assert!(json.contains("phoneNumber"));
+    assert!(json.contains("+15550001111"));
+    assert!(json.contains("meta"));
+    assert!(json.contains("key1"));
+    assert!(json.contains("val1"));
 }
