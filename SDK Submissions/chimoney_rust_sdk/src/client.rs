@@ -404,6 +404,166 @@ impl ChimoneyClient {
         serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
     }
 
+    // ── Agent Methods ─────────────────────────────────────────────
+
+    /// Create a new agent.
+    pub async fn create_agent(
+        &self,
+        request: &crate::types::CreateAgentRequest,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/create";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// List all agents.
+    pub async fn list_agents(&self) -> Result<crate::types::AgentListResponse> {
+        let path = "/v0.2.4/agents/list";
+        let response = self.get(path, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Get agent details by ID.
+    pub async fn get_agent(
+        &self,
+        agent_id: &str,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/get";
+        let query = format!("agentId={}", agent_id);
+        let response = self.get(path, Some(&query)).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Update an agent.
+    pub async fn update_agent(
+        &self,
+        request: &crate::types::UpdateAgentRequest,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/update";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.patch(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Update agent policies.
+    pub async fn update_agent_policies(
+        &self,
+        request: &crate::types::UpdateAgentPoliciesRequest,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/update-policies";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.patch(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Suspend an agent.
+    pub async fn suspend_agent(
+        &self,
+        request: &crate::types::AgentIdRequest,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/suspend";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Reactivate a suspended agent.
+    pub async fn reactivate_agent(
+        &self,
+        request: &crate::types::AgentIdRequest,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/reactivate";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Get API key for an agent.
+    pub async fn get_agent_api_key(
+        &self,
+        agent_id: &str,
+    ) -> Result<crate::types::AgentApiKeyResponse> {
+        let path = "/v0.2.4/agents/api-key";
+        let query = format!("agentId={}", agent_id);
+        let response = self.get(path, Some(&query)).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Manage an agent API key (create, rotate, revoke, delete).
+    pub async fn manage_agent_api_key(
+        &self,
+        request: &crate::types::ManageAgentApiKeyRequest,
+    ) -> Result<crate::types::AgentApiKeyResponse> {
+        let path = "/v0.2.4/agents/api-key";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Get transactions for an agent.
+    pub async fn get_agent_transactions(
+        &self,
+        request: &crate::types::AgentTransactionsRequest,
+    ) -> Result<crate::types::AgentTransactionsResponse> {
+        let path = "/v0.2.4/agents/transactions";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Fund an agent wallet.
+    pub async fn fund_agent(
+        &self,
+        request: &crate::types::FundAgentRequest,
+    ) -> Result<crate::types::AgentResponse> {
+        let path = "/v0.2.4/agents/fund";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
     // ── Redeem Methods ─────────────────────────────────────────────
 
     /// Redeem airtime.

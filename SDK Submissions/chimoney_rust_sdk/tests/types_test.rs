@@ -829,3 +829,301 @@ fn test_update_sub_account_request_all_some() {
     assert!(json.contains("key1"));
     assert!(json.contains("val1"));
 }
+
+// === Agent types ===
+
+#[test]
+fn test_agent_deserialization() {
+    let json = r#"{
+        "id": "agent_001",
+        "name": "Test Agent",
+        "description": "A test agent",
+        "status": "active",
+        "walletId": "wallet_abc",
+        "passport": {"type": "national_id"},
+        "meta": {"role": "assistant"},
+        "createdAt": "2024-01-01T00:00:00Z"
+    }"#;
+    let agent: Agent = serde_json::from_str(json).unwrap();
+    assert_eq!(agent.id, "agent_001");
+    assert_eq!(agent.name, "Test Agent");
+    assert_eq!(agent.description, Some("A test agent".to_string()));
+    assert_eq!(agent.status, "active");
+    assert_eq!(agent.wallet_id, Some("wallet_abc".to_string()));
+    assert!(agent.passport.is_some());
+    assert!(agent.meta.is_some());
+    assert_eq!(agent.created_at, Some("2024-01-01T00:00:00Z".to_string()));
+}
+
+#[test]
+fn test_agent_serialization() {
+    let agent = Agent {
+        id: "agent_002".to_string(),
+        name: "Agent Two".to_string(),
+        description: None,
+        status: "active".to_string(),
+        wallet_id: None,
+        passport: None,
+        meta: None,
+        created_at: None,
+    };
+    let json = serde_json::to_string(&agent).unwrap();
+    assert!(json.contains("id"));
+    assert!(json.contains("agent_002"));
+    assert!(json.contains("name"));
+    assert!(json.contains("Agent Two"));
+    assert!(json.contains("status"));
+    assert!(json.contains("active"));
+}
+
+#[test]
+fn test_create_agent_request_serialization() {
+    let request = CreateAgentRequest {
+        name: "My Agent".to_string(),
+        description: Some("An AI agent".to_string()),
+        meta: Some(serde_json::json!({"key": "value"})),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("name"));
+    assert!(json.contains("My Agent"));
+    assert!(json.contains("description"));
+    assert!(json.contains("An AI agent"));
+    assert!(json.contains("meta"));
+}
+
+#[test]
+fn test_create_agent_request_optional_fields() {
+    let request = CreateAgentRequest {
+        name: "Minimal Agent".to_string(),
+        description: None,
+        meta: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("name"));
+    assert!(json.contains("Minimal Agent"));
+    assert!(!json.contains("description"));
+    assert!(!json.contains("meta"));
+}
+
+#[test]
+fn test_update_agent_request_serialization() {
+    let request = UpdateAgentRequest {
+        agent_id: "agent_upd".to_string(),
+        name: Some("Updated Name".to_string()),
+        description: None,
+        meta: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_upd"));
+    assert!(json.contains("name"));
+    assert!(json.contains("Updated Name"));
+    assert!(!json.contains("description"));
+}
+
+#[test]
+fn test_update_agent_policies_request_serialization() {
+    let request = UpdateAgentPoliciesRequest {
+        agent_id: "agent_pol".to_string(),
+        limits: Some(serde_json::json!({"maxTxn": 100})),
+        capabilities: None,
+        regions: Some(serde_json::json!({"allow": ["US", "NG"]})),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_pol"));
+    assert!(json.contains("limits"));
+    assert!(json.contains("maxTxn"));
+    assert!(!json.contains("capabilities"));
+    assert!(json.contains("regions"));
+}
+
+#[test]
+fn test_agent_id_request_serialization() {
+    let request = AgentIdRequest {
+        agent_id: "agent_suspend".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_suspend"));
+}
+
+#[test]
+fn test_agent_api_key_response_deserialization() {
+    let json = r#"{
+        "agentId": "agent_key",
+        "apiKeyPrefix": "chm_abc123",
+        "createdAt": "2024-06-01T00:00:00Z"
+    }"#;
+    let response: AgentApiKeyResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.agent_id, Some("agent_key".to_string()));
+    assert_eq!(response.api_key_prefix, Some("chm_abc123".to_string()));
+    assert_eq!(response.created_at, Some("2024-06-01T00:00:00Z".to_string()));
+}
+
+#[test]
+fn test_agent_api_key_response_empty() {
+    let json = r#"{}"#;
+    let response: AgentApiKeyResponse = serde_json::from_str(json).unwrap();
+    assert!(response.agent_id.is_none());
+    assert!(response.api_key_prefix.is_none());
+    assert!(response.created_at.is_none());
+}
+
+#[test]
+fn test_manage_agent_api_key_request_serialization() {
+    let request = ManageAgentApiKeyRequest {
+        agent_id: "agent_manage".to_string(),
+        action: "rotate".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_manage"));
+    assert!(json.contains("action"));
+    assert!(json.contains("rotate"));
+}
+
+#[test]
+fn test_agent_transactions_request_serialization() {
+    let request = AgentTransactionsRequest {
+        agent_id: "agent_txn".to_string(),
+        sub_account: Some("sub_123".to_string()),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_txn"));
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_123"));
+}
+
+#[test]
+fn test_agent_transactions_request_no_sub_account() {
+    let request = AgentTransactionsRequest {
+        agent_id: "agent_txn2".to_string(),
+        sub_account: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_txn2"));
+    assert!(!json.contains("subAccount"));
+}
+
+#[test]
+fn test_agent_transactions_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": [{"id": "txn_1", "amount": 10.0}]
+    }"#;
+    let response: AgentTransactionsResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    let data = response.data.unwrap();
+    assert_eq!(data.len(), 1);
+}
+
+#[test]
+fn test_agent_transactions_response_empty_data() {
+    let json = r#"{
+        "status": "success",
+        "data": []
+    }"#;
+    let response: AgentTransactionsResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    assert!(response.data.unwrap().is_empty());
+}
+
+#[test]
+fn test_agent_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": {
+            "id": "agent_resp",
+            "name": "Resp Agent",
+            "description": null,
+            "status": "active",
+            "walletId": null,
+            "passport": null,
+            "meta": null,
+            "createdAt": "2024-01-01T00:00:00Z"
+        }
+    }"#;
+    let response: AgentResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    let agent = response.data.unwrap();
+    assert_eq!(agent.id, "agent_resp");
+    assert_eq!(agent.name, "Resp Agent");
+    assert_eq!(agent.status, "active");
+}
+
+#[test]
+fn test_agent_response_no_data() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: AgentResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_none());
+}
+
+#[test]
+fn test_agent_list_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": [
+            {"id": "a1", "name": "Agent 1", "status": "active"},
+            {"id": "a2", "name": "Agent 2", "status": "suspended"}
+        ]
+    }"#;
+    let response: AgentListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    let agents = response.data.unwrap();
+    assert_eq!(agents.len(), 2);
+    assert_eq!(agents[0].id, "a1");
+    assert_eq!(agents[1].id, "a2");
+}
+
+#[test]
+fn test_agent_list_response_empty() {
+    let json = r#"{
+        "status": "success",
+        "data": []
+    }"#;
+    let response: AgentListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    assert!(response.data.unwrap().is_empty());
+}
+
+#[test]
+fn test_fund_agent_request_serialization() {
+    let request = FundAgentRequest {
+        agent_id: "agent_fund".to_string(),
+        amount_in_usd: 25.50,
+        sub_account: Some("sub_fund".to_string()),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_fund"));
+    assert!(json.contains("amountInUsd"));
+    assert!(json.contains("25.5"));
+    assert!(json.contains("subAccount"));
+    assert!(json.contains("sub_fund"));
+}
+
+#[test]
+fn test_fund_agent_request_no_sub_account() {
+    let request = FundAgentRequest {
+        agent_id: "agent_fund2".to_string(),
+        amount_in_usd: 100.0,
+        sub_account: None,
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("agentId"));
+    assert!(json.contains("agent_fund2"));
+    assert!(json.contains("amountInUsd"));
+    assert!(json.contains("100.0"));
+    assert!(!json.contains("subAccount"));
+}
