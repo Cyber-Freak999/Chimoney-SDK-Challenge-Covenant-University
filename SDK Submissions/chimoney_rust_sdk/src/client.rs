@@ -119,6 +119,28 @@ impl ChimoneyClient {
         self.handle_response(response).await
     }
 
+    /// Make a PATCH request.
+    async fn patch(&self, path: &str, body: &str, query: Option<&str>) -> Result<String> {
+        let mut url = format!("{}{}", self.base_url, path);
+        if let Some(params) = query {
+            url.push('?');
+            url.push_str(params);
+        }
+
+        let response = self
+            .client
+            .patch(&url)
+            .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
+            .header("X-API-KEY", &self.api_key)
+            .body(body.to_string())
+            .send()
+            .await
+            .map_err(ChimoneyError::MiddlewareError)?;
+
+        self.handle_response(response).await
+    }
+
     // ── Account Methods ──────────────────────────────────────────────
 
     /// Get transactions by account ID.
