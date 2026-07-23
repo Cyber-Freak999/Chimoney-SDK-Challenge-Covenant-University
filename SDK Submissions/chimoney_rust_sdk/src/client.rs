@@ -213,6 +213,53 @@ impl ChimoneyClient {
         serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
     }
 
+    // ── Payment Methods ─────────────────────────────────────────────
+
+    /// Initiate a payment.
+    pub async fn initiate_payment(
+        &self,
+        request: &crate::types::PaymentRequest,
+    ) -> Result<crate::types::PaymentResponse> {
+        let path = "/v0.2/payment/initiate";
+        let body = serde_json::to_string(request)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Verify a payment.
+    pub async fn verify_payment(
+        &self,
+        issue_id: &str,
+    ) -> Result<crate::types::PaymentVerification> {
+        let path = "/v0.2/payment/verify";
+        let query = format!("issueId={}", issue_id);
+        let response = self.get(path, Some(&query)).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json["data"].clone())
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Simulate a payment (sandbox only).
+    pub async fn simulate_payment(
+        &self,
+        issue_id: &str,
+    ) -> Result<serde_json::Value> {
+        let path = "/v0.2/payment/simulate";
+        let query = format!("issueId={}", issue_id);
+        let response = self.get(path, Some(&query)).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        Ok(json["data"].clone())
+    }
+
     /// Handle API response.
     async fn handle_response(&self, response: reqwest::Response) -> Result<String> {
         let status = response.status();
