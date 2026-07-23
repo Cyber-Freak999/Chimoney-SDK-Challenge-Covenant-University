@@ -12,4 +12,6 @@
 - Task 8: complete (commit 7d79475, review clean)
 - Task 9: complete (commit 63f3a6f, review clean)
 - Task 10: complete (commit 2b63486, review clean)
+- Task 11: complete (commit b006525, review clean)
+- Task 12: complete (commit 4ad2629, review clean)
 

@@ -4,7 +4,7 @@
 //!
 //! # Example
 //!
-//! ```rust
+//! ```no_run
 //! use chimoney_rust_sdk::{ChimoneyClient, error::Result};
 //!
 //! # #[tokio::main]
