@@ -17,3 +17,7 @@ log = "0.4"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full"] }
+
+[[example]]
+name = "basic_usage"
+path = "examples/basic_usage.rs"
