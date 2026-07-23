@@ -1,7 +1,9 @@
 pub mod account;
 pub mod beneficiary;
 pub mod core;
+pub mod error;
 pub mod info;
+pub mod middleware;
 pub mod payment;
 pub mod payouts;
 pub mod redeem;
