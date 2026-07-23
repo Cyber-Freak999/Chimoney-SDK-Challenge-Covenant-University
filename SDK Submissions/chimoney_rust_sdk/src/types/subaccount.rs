@@ -3,6 +3,7 @@ use std::collections::HashMap;
 
 /// Sub-account details.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SubAccount {
     pub id: String,
     pub name: String,
@@ -18,6 +19,7 @@ pub struct SubAccount {
 
 /// Request to create a sub-account.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CreateSubAccountRequest {
     /// Sub-account name.
     pub name: String,
@@ -33,6 +35,7 @@ pub struct CreateSubAccountRequest {
 
 /// Request to update a sub-account.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct UpdateSubAccountRequest {
     /// Sub-account ID.
     pub id: String,
@@ -52,6 +55,7 @@ pub struct UpdateSubAccountRequest {
 
 /// Response from sub-account operations.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SubAccountResponse {
     pub status: String,
     #[serde(default)]
@@ -62,6 +66,7 @@ pub struct SubAccountResponse {
 
 /// List of sub-accounts.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SubAccountList {
     pub status: String,
     #[serde(default)]

@@ -3,6 +3,7 @@ use std::collections::HashMap;
 
 /// Base redeem request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RedeemRequest {
     /// Sub-account ID.
     pub sub_account: String,
@@ -16,6 +17,7 @@ pub struct RedeemRequest {
 
 /// Airtime redeem request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RedeemAirtimeRequest {
     #[serde(flatten)]
     pub base: RedeemRequest,
@@ -30,6 +32,7 @@ pub struct RedeemAirtimeRequest {
 
 /// Chimoney redeem request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RedeemChimoneyRequest {
     #[serde(flatten)]
     pub base: RedeemRequest,
@@ -39,6 +42,7 @@ pub struct RedeemChimoneyRequest {
 
 /// Gift card redeem request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RedeemGiftCardRequest {
     #[serde(flatten)]
     pub base: RedeemRequest,
@@ -48,6 +52,7 @@ pub struct RedeemGiftCardRequest {
 
 /// Mobile money redeem request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RedeemMobileMoneyRequest {
     #[serde(flatten)]
     pub base: RedeemRequest,
@@ -57,6 +62,7 @@ pub struct RedeemMobileMoneyRequest {
 
 /// Generic redeem response.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct RedeemResponse {
     pub status: String,
     #[serde(default)]

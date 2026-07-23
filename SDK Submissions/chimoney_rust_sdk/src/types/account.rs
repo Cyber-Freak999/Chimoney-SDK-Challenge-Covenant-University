@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 /// A Chimoney transaction.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Transaction {
     pub id: String,
     pub amount: f64,
@@ -15,6 +16,7 @@ pub struct Transaction {
 
 /// Request to transfer between accounts.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TransferRequest {
     /// The receiver's ID or email.
     pub receiver: String,
@@ -27,6 +29,7 @@ pub struct TransferRequest {
 
 /// Response from a transfer request.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TransferResponse {
     pub id: String,
     pub status: String,
@@ -36,6 +39,7 @@ pub struct TransferResponse {
 
 /// Request to initiate a Chimoney transaction.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct InitiateChimoneyRequest {
     /// Receiver's email or ID.
     pub receiver: String,
@@ -51,6 +55,7 @@ pub struct InitiateChimoneyRequest {
 
 /// Response from initiating a Chimoney transaction.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct InitiateChimoneyResponse {
     pub id: String,
     pub status: String,
@@ -60,6 +65,7 @@ pub struct InitiateChimoneyResponse {
 
 /// Request to delete unpaid transactions.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct DeleteUnpaidTransactionRequest {
     /// The chi reference to delete.
     pub chi_ref: String,
@@ -67,6 +73,7 @@ pub struct DeleteUnpaidTransactionRequest {
 
 /// Response from deleting unpaid transactions.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct DeleteUnpaidTransactionResponse {
     pub status: String,
     #[serde(default)]

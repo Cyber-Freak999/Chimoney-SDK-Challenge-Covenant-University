@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 /// Base payout request with common fields.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PayoutRequest {
     /// Sub-account ID.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -13,6 +14,7 @@ pub struct PayoutRequest {
 
 /// Bank payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BankPayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -22,6 +24,7 @@ pub struct BankPayoutRequest {
 
 /// A single bank transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct BankTransfer {
     /// Bank code.
     pub bank_code: String,
@@ -40,6 +43,7 @@ pub struct BankTransfer {
 
 /// Airtime payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AirtimePayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -49,6 +53,7 @@ pub struct AirtimePayoutRequest {
 
 /// A single airtime transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct AirtimeTransfer {
     /// Phone number.
     pub phone_number: String,
@@ -60,6 +65,7 @@ pub struct AirtimeTransfer {
 
 /// Chimoney payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ChimoneyPayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -69,6 +75,7 @@ pub struct ChimoneyPayoutRequest {
 
 /// A single Chimoney transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ChimoneyTransfer {
     /// Receiver email or ID.
     pub receiver: String,
@@ -78,6 +85,7 @@ pub struct ChimoneyTransfer {
 
 /// Mobile money payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct MobileMoneyPayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -87,6 +95,7 @@ pub struct MobileMoneyPayoutRequest {
 
 /// A single mobile money transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct MobileMoneyTransfer {
     /// Phone number.
     pub phone_number: String,
@@ -100,6 +109,7 @@ pub struct MobileMoneyTransfer {
 
 /// Gift card payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GiftCardPayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -109,6 +119,7 @@ pub struct GiftCardPayoutRequest {
 
 /// A single gift card transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GiftCardTransfer {
     /// Receiver email or ID.
     pub receiver: String,
@@ -120,6 +131,7 @@ pub struct GiftCardTransfer {
 
 /// Interledger wallet payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct InterledgerPayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -129,6 +141,7 @@ pub struct InterledgerPayoutRequest {
 
 /// A single Interledger transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct InterledgerTransfer {
     /// Receiver address.
     pub receiver_address: String,
@@ -138,6 +151,7 @@ pub struct InterledgerTransfer {
 
 /// Wallet payout request.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WalletPayoutRequest {
     #[serde(flatten)]
     pub base: PayoutRequest,
@@ -147,6 +161,7 @@ pub struct WalletPayoutRequest {
 
 /// A single wallet transfer.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WalletTransfer {
     /// Receiver email or ID.
     pub receiver: String,
@@ -158,6 +173,7 @@ pub struct WalletTransfer {
 
 /// Generic payout response.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PayoutResponse {
     pub status: String,
     #[serde(default)]
@@ -168,6 +184,7 @@ pub struct PayoutResponse {
 
 /// Payout status response.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PayoutStatusResponse {
     pub status: String,
     #[serde(default)]

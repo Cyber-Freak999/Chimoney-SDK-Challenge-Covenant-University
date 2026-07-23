@@ -19,7 +19,7 @@
 
 ## Commits
 
-- `c4d7b58` — chore: verify v0.2.0 builds and tests pass
+- `c777ef8` — chore: verify v0.2.0 builds and tests pass
 
 ## Summary
 

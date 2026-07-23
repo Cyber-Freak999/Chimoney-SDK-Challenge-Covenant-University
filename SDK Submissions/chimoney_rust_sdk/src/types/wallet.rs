@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 /// Wallet details.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Wallet {
     pub id: String,
     #[serde(default)]
@@ -14,6 +15,7 @@ pub struct Wallet {
 
 /// List of wallets response.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WalletList {
     pub status: String,
     #[serde(default)]
@@ -22,6 +24,7 @@ pub struct WalletList {
 
 /// Request to lookup a wallet.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WalletLookupRequest {
     /// Wallet ID.
     pub wallet_id: String,
@@ -31,6 +34,7 @@ pub struct WalletLookupRequest {
 
 /// Request to transfer between wallets.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WalletTransferRequest {
     /// Source wallet ID.
     pub wallet: String,
@@ -44,6 +48,7 @@ pub struct WalletTransferRequest {
 
 /// Response from wallet operations.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WalletResponse {
     pub status: String,
     #[serde(default)]

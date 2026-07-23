@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 /// Request to initiate a payment.
 #[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PaymentRequest {
     /// Payer's email address.
     pub email: String,
@@ -16,6 +17,7 @@ pub struct PaymentRequest {
 
 /// Response from initiating a payment.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PaymentResponse {
     pub id: String,
     pub status: String,
@@ -27,6 +29,7 @@ pub struct PaymentResponse {
 
 /// Payment verification result.
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct PaymentVerification {
     pub id: String,
     pub status: String,
