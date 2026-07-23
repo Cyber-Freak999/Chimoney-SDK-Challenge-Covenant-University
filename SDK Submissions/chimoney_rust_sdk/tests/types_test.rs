@@ -1127,3 +1127,212 @@ fn test_fund_agent_request_no_sub_account() {
     assert!(json.contains("100.0"));
     assert!(!json.contains("subAccount"));
 }
+
+// === Beneficiary types ===
+
+#[test]
+fn test_beneficiary_deserialization() {
+    let json = r#"{
+        "id": "ben_001",
+        "beneficiaryType": "bank",
+        "accountNumber": "1234567890",
+        "bankCode": "044",
+        "countryCode": "NG",
+        "name": "John Doe",
+        "createdAt": "2024-01-01T00:00:00Z"
+    }"#;
+    let beneficiary: Beneficiary = serde_json::from_str(json).unwrap();
+    assert_eq!(beneficiary.id, "ben_001");
+    assert_eq!(beneficiary.beneficiary_type, Some("bank".to_string()));
+    assert_eq!(beneficiary.account_number, Some("1234567890".to_string()));
+    assert_eq!(beneficiary.bank_code, Some("044".to_string()));
+    assert_eq!(beneficiary.country_code, Some("NG".to_string()));
+    assert_eq!(beneficiary.name, "John Doe");
+    assert_eq!(beneficiary.created_at, Some("2024-01-01T00:00:00Z".to_string()));
+}
+
+#[test]
+fn test_beneficiary_minimal_fields() {
+    let json = r#"{
+        "id": "ben_min",
+        "name": "Minimal Ben"
+    }"#;
+    let beneficiary: Beneficiary = serde_json::from_str(json).unwrap();
+    assert_eq!(beneficiary.id, "ben_min");
+    assert_eq!(beneficiary.name, "Minimal Ben");
+    assert!(beneficiary.beneficiary_type.is_none());
+    assert!(beneficiary.account_number.is_none());
+    assert!(beneficiary.bank_code.is_none());
+    assert!(beneficiary.country_code.is_none());
+    assert!(beneficiary.created_at.is_none());
+}
+
+#[test]
+fn test_beneficiary_serialization() {
+    let beneficiary = Beneficiary {
+        id: "ben_s".to_string(),
+        beneficiary_type: Some("bank".to_string()),
+        account_number: None,
+        bank_code: Some("011".to_string()),
+        country_code: None,
+        name: "Serialize Me".to_string(),
+        created_at: None,
+    };
+    let json = serde_json::to_string(&beneficiary).unwrap();
+    assert!(json.contains("id"));
+    assert!(json.contains("ben_s"));
+    assert!(json.contains("beneficiaryType"));
+    assert!(json.contains("bank"));
+    assert!(json.contains("name"));
+    assert!(json.contains("Serialize Me"));
+    assert!(json.contains("bankCode"));
+    assert!(json.contains("011"));
+    assert!(!json.contains("accountNumber"));
+    assert!(!json.contains("countryCode"));
+    assert!(!json.contains("createdAt"));
+}
+
+#[test]
+fn test_create_bank_beneficiary_request_serialization() {
+    let request = CreateBankBeneficiaryRequest {
+        account_number: "1234567890".to_string(),
+        bank_code: "044".to_string(),
+        country_code: "NG".to_string(),
+        name: "Jane Doe".to_string(),
+        currency: "NGN".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("accountNumber"));
+    assert!(json.contains("1234567890"));
+    assert!(json.contains("bankCode"));
+    assert!(json.contains("044"));
+    assert!(json.contains("countryCode"));
+    assert!(json.contains("NG"));
+    assert!(json.contains("name"));
+    assert!(json.contains("Jane Doe"));
+    assert!(json.contains("currency"));
+    assert!(json.contains("NGN"));
+}
+
+#[test]
+fn test_beneficiary_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "message": "Beneficiary created",
+        "data": {
+            "id": "ben_resp",
+            "beneficiaryType": "bank",
+            "accountNumber": "9876543210",
+            "bankCode": "011",
+            "countryCode": "NG",
+            "name": "Created Ben",
+            "createdAt": "2024-06-01T00:00:00Z"
+        }
+    }"#;
+    let response: BeneficiaryResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.message, Some("Beneficiary created".to_string()));
+    let data = response.data.unwrap();
+    assert_eq!(data.id, "ben_resp");
+    assert_eq!(data.beneficiary_type, Some("bank".to_string()));
+    assert_eq!(data.account_number, Some("9876543210".to_string()));
+    assert_eq!(data.name, "Created Ben");
+}
+
+#[test]
+fn test_beneficiary_response_no_data() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: BeneficiaryResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.message.is_none());
+    assert!(response.data.is_none());
+}
+
+#[test]
+fn test_beneficiary_list_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "data": [
+            {"id": "b1", "name": "Ben 1", "beneficiaryType": "bank"},
+            {"id": "b2", "name": "Ben 2", "beneficiaryType": "airtime"}
+        ]
+    }"#;
+    let response: BeneficiaryListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    let data = response.data.unwrap();
+    assert_eq!(data.len(), 2);
+    assert_eq!(data[0].id, "b1");
+    assert_eq!(data[0].name, "Ben 1");
+    assert_eq!(data[1].id, "b2");
+    assert_eq!(data[1].beneficiary_type, Some("airtime".to_string()));
+}
+
+#[test]
+fn test_beneficiary_list_response_empty() {
+    let json = r#"{
+        "status": "success",
+        "data": []
+    }"#;
+    let response: BeneficiaryListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_some());
+    assert!(response.data.unwrap().is_empty());
+}
+
+#[test]
+fn test_beneficiary_list_response_no_data() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: BeneficiaryListResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.data.is_none());
+}
+
+#[test]
+fn test_preview_transfer_request_serialization() {
+    let request = PreviewTransferRequest {
+        beneficiary_id: "ben_prev".to_string(),
+        amount: 150.0,
+        currency: "USD".to_string(),
+    };
+    let json = serde_json::to_string(&request).unwrap();
+    assert!(json.contains("beneficiaryId"));
+    assert!(json.contains("ben_prev"));
+    assert!(json.contains("amount"));
+    assert!(json.contains("150.0"));
+    assert!(json.contains("currency"));
+    assert!(json.contains("USD"));
+}
+
+#[test]
+fn test_preview_transfer_response_deserialization() {
+    let json = r#"{
+        "status": "success",
+        "fee": 2.5,
+        "exchangeRate": 1.2,
+        "totalAmount": 152.5,
+        "destinationAmount": 127.083
+    }"#;
+    let response: PreviewTransferResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert_eq!(response.fee, Some(2.5));
+    assert_eq!(response.exchange_rate, Some(1.2));
+    assert_eq!(response.total_amount, Some(152.5));
+    assert_eq!(response.destination_amount, Some(127.083));
+}
+
+#[test]
+fn test_preview_transfer_response_optional_fields() {
+    let json = r#"{
+        "status": "success"
+    }"#;
+    let response: PreviewTransferResponse = serde_json::from_str(json).unwrap();
+    assert_eq!(response.status, "success");
+    assert!(response.fee.is_none());
+    assert!(response.exchange_rate.is_none());
+    assert!(response.total_amount.is_none());
+    assert!(response.destination_amount.is_none());
+}

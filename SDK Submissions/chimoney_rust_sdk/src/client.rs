@@ -564,6 +564,50 @@ impl ChimoneyClient {
         serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
     }
 
+    // ── Beneficiary Methods ─────────────────────────────────────────
+
+    /// Get all beneficiaries.
+    pub async fn get_beneficiaries(
+        &self,
+    ) -> Result<crate::types::BeneficiaryListResponse> {
+        let path = "/v0.2.4/beneficiary";
+        let response = self.get(path, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Create a bank beneficiary.
+    pub async fn create_bank_beneficiary(
+        &self,
+        request: &crate::types::CreateBankBeneficiaryRequest,
+    ) -> Result<crate::types::BeneficiaryResponse> {
+        let path = "/v0.2.4/beneficiary/bank";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
+    /// Preview a transfer to a beneficiary.
+    pub async fn preview_transfer(
+        &self,
+        request: &crate::types::PreviewTransferRequest,
+    ) -> Result<crate::types::PreviewTransferResponse> {
+        let path = "/v0.2.4/beneficiary/preview";
+        let body =
+            serde_json::to_string(request).map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+        let response = self.post(path, &body, None).await?;
+        let json: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|e| ChimoneyError::ParseError(e.to_string()))?;
+
+        serde_json::from_value(json).map_err(|e| ChimoneyError::ParseError(e.to_string()))
+    }
+
     // ── Redeem Methods ─────────────────────────────────────────────
 
     /// Redeem airtime.
